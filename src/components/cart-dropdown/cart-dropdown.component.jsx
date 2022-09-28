@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { CartContext } from "../../contexts/cart.context";
 
@@ -15,11 +15,13 @@ import {
 const CartDropdown = () => {
   const { cartItems, setIsCartOpen } = useContext(CartContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const goToCheckoutHandler = () => {
-    navigate("checkout");
-    setIsCartOpen(false);
-  };
+  useEffect(() => {
+    return () => setIsCartOpen(false);
+  }, [setIsCartOpen, location]);
+
+  const goToCheckoutHandler = () => navigate("checkout");
 
   return (
     <CartDropdownContainer>
